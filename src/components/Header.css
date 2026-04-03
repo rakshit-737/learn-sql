@@ -10,15 +10,15 @@
   z-index: 100;
   height: var(--header-height);
   background: var(--surface-sidebar);
-  border-bottom: 1px solid oklch(28% 0.020 220);
+  border-bottom: 1px solid var(--color-neutral-200);
   transition:
     box-shadow var(--transition-base),
     background var(--transition-base);
 }
 
 .header--scrolled {
-  box-shadow: var(--shadow-lg);
-  background: oklch(16% 0.028 220);
+  box-shadow: 0 1px 0 var(--color-neutral-200), var(--shadow-lg);
+  background: oklch(8% 0.016 240);
 }
 
 /* --- Inner layout --- */
@@ -52,7 +52,7 @@
 }
 
 .logo-section:hover {
-  background: oklch(28% 0.030 220);
+  background: var(--color-neutral-200);
   transform: scale(1.02);
 }
 
@@ -66,19 +66,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-primary-500);
+  background: var(--color-primary-400);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-primary);
   transition: box-shadow var(--transition-base);
 }
 
 .logo-section:hover .logo-icon-wrap {
-  box-shadow: 0 0 0 4px oklch(52% 0.165 220 / 0.25);
+  box-shadow: 0 0 0 4px var(--color-primary-300);
 }
 
 .logo-icon {
   font-size: 1.1rem;
-  color: white;
+  color: var(--text-inverse);
 }
 
 .logo-text {
@@ -93,11 +93,13 @@
   font-weight: var(--font-weight-bold);
   color: var(--text-inverse);
   letter-spacing: var(--letter-spacing-tight);
+  font-family: var(--font-mono);
+  color: var(--color-primary-600);
 }
 
 .logo-sub {
   font-size: var(--font-size-xs);
-  color: var(--color-neutral-400);
+  color: var(--text-secondary);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--letter-spacing-wider);
   text-transform: uppercase;
@@ -116,8 +118,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  background: oklch(28% 0.025 220);
-  border: 1px solid oklch(36% 0.030 220);
+  background: var(--color-neutral-200);
+  border: 1px solid var(--color-neutral-300);
   border-radius: var(--radius-full);
   padding: var(--space-1) var(--space-3);
   transition: border-color var(--transition-base);
@@ -129,7 +131,7 @@
 
 .progress-pill__label {
   font-size: var(--font-size-xs);
-  color: var(--color-neutral-400);
+  color: var(--text-tertiary);
   font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-wider);
@@ -138,25 +140,28 @@
 .progress-pill__value {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  color: var(--color-accent-400);
+  color: var(--color-primary-500);
   font-family: var(--font-mono);
 }
 
 .header-link {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--color-neutral-400);
+  color: var(--text-secondary);
   text-decoration: none;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
+  border: 1px solid var(--color-neutral-200);
   transition:
     color var(--transition-base),
-    background var(--transition-base);
+    background var(--transition-base),
+    border-color var(--transition-base);
 }
 
 .header-link:hover {
-  color: var(--text-inverse);
-  background: oklch(28% 0.025 220);
+  color: var(--color-primary-500);
+  background: var(--color-neutral-200);
+  border-color: var(--color-primary-300);
 }
 
 /* --- Progress track --- */
@@ -167,14 +172,15 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: oklch(28% 0.020 220);
+  background: var(--color-neutral-200);
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-primary-400), var(--color-accent-400));
+  background: linear-gradient(90deg, var(--color-primary-500), var(--color-accent-400));
   border-radius: 0 var(--radius-full) var(--radius-full) 0;
   transition: width 0.4s ease-out;
+  box-shadow: 0 0 8px var(--color-primary-400);
 }
 
 /* --- Responsive --- */

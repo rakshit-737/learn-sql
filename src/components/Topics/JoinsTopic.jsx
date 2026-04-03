@@ -4,7 +4,7 @@ function JoinsTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>🔗 Joins</h2>
+        <h2>Joins</h2>
         <p>Combining data from multiple tables - INNER, OUTER, CROSS, and SELF joins</p>
       </div>
 

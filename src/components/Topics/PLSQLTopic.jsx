@@ -4,7 +4,7 @@ function PLSQLTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>💻 PL/SQL Basics</h2>
+        <h2>PL/SQL Basics</h2>
         <p>Procedural Language features, variables, and control structures</p>
       </div>
 

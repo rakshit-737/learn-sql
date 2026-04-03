@@ -4,7 +4,7 @@ function FunctionsTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>🔧 Functions</h2>
+        <h2>Functions</h2>
         <p>String, Numeric, Date, and Aggregate functions in SQL</p>
       </div>
 

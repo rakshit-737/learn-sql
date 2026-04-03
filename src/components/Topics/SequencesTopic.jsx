@@ -4,7 +4,7 @@ function SequencesTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>🔢 Sequences & Synonyms</h2>
+        <h2>Sequences &amp; Synonyms</h2>
         <p>Auto-generating sequential numbers and creating table aliases</p>
       </div>
 
