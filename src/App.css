@@ -1,39 +1,50 @@
+/* ============================================================
+   APP LAYOUT
+   ============================================================ */
+
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--surface-background);
 }
 
 .main-container {
   display: flex;
   flex: 1;
   overflow: hidden;
-  gap: 0;
+  padding-top: var(--header-height);
 }
 
-/* Scrollbar styling */
+/* ============================================================
+   SCROLLBAR (app-level override)
+   ============================================================ */
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: var(--color-neutral-300);
+  border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--color-neutral-400);
 }
 
-/* Responsive adjustments */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
 @media (max-width: 768px) {
   .main-container {
     flex-direction: column;
+    padding-top: var(--header-height);
   }
 }
