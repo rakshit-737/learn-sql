@@ -4,7 +4,7 @@ function DMLTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>📝 DML Commands</h2>
+        <h2>DML Commands</h2>
         <p>Data Manipulation Language - INSERT, UPDATE, DELETE, and SELECT operations</p>
       </div>
 

@@ -4,7 +4,7 @@ function TriggersTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>🎯 Triggers & Cursors</h2>
+        <h2>Triggers &amp; Cursors</h2>
         <p>Event-driven programming and row-by-row data processing</p>
       </div>
 

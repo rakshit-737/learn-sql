@@ -4,7 +4,7 @@ function IntroTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>🚀 Engineering Database Systems Lab</h2>
+        <h2>Engineering Database Systems Lab</h2>
         <p>Master SQL and PL/SQL with comprehensive lessons and hands-on exercises</p>
       </div>
 

@@ -4,7 +4,7 @@ function ProceduresTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>⚡ Procedures & Functions</h2>
+        <h2>Procedures &amp; Functions</h2>
         <p>Creating and using reusable PL/SQL code blocks</p>
       </div>
 

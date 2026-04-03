@@ -1,23 +1,23 @@
 /* ============================================================
-   DESIGN TOKENS — Technical Elegance with Educational Warmth
+   DESIGN TOKENS — Database Terminal Dark Theme
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
   /* --- Color System (OKLCH for perceptual uniformity) --- */
 
-  /* Primary: Deep blue-teal (trust, expertise) */
-  --color-primary-50:  oklch(97% 0.015 220);
-  --color-primary-100: oklch(93% 0.040 220);
-  --color-primary-200: oklch(86% 0.075 220);
-  --color-primary-300: oklch(76% 0.115 220);
-  --color-primary-400: oklch(64% 0.145 220);
-  --color-primary-500: oklch(52% 0.165 220);
-  --color-primary-600: oklch(44% 0.155 220);
-  --color-primary-700: oklch(36% 0.130 220);
-  --color-primary-800: oklch(28% 0.100 220);
-  --color-primary-900: oklch(20% 0.070 220);
+  /* Primary: Bright cyan — terminal, modern, non-generic */
+  --color-primary-50:  oklch(15% 0.040 210);
+  --color-primary-100: oklch(20% 0.060 210);
+  --color-primary-200: oklch(28% 0.075 210);
+  --color-primary-300: oklch(40% 0.100 205);
+  --color-primary-400: oklch(54% 0.135 200);
+  --color-primary-500: oklch(68% 0.165 195);
+  --color-primary-600: oklch(78% 0.148 192);
+  --color-primary-700: oklch(86% 0.118 192);
+  --color-primary-800: oklch(92% 0.075 195);
+  --color-primary-900: oklch(97% 0.035 200);
 
   /* Accent: Warm amber (engagement, achievement) */
   --color-accent-300: oklch(88% 0.140 75);
@@ -25,40 +25,40 @@
   --color-accent-500: oklch(72% 0.175 68);
   --color-accent-600: oklch(62% 0.170 65);
 
-  /* Success: Warm green */
-  --color-success-100: oklch(94% 0.060 145);
-  --color-success-500: oklch(58% 0.150 145);
-  --color-success-600: oklch(50% 0.140 145);
+  /* Success: Terminal green */
+  --color-success-100: oklch(18% 0.055 145);
+  --color-success-500: oklch(62% 0.155 145);
+  --color-success-600: oklch(54% 0.145 145);
 
   /* Error */
-  --color-error-100: oklch(94% 0.055 25);
-  --color-error-500: oklch(58% 0.200 25);
+  --color-error-100: oklch(18% 0.060 25);
+  --color-error-500: oklch(62% 0.200 25);
 
-  /* Neutrals (tinted toward primary, never pure gray) */
-  --color-neutral-50:  oklch(98.5% 0.005 220);
-  --color-neutral-100: oklch(96%   0.010 220);
-  --color-neutral-200: oklch(91%   0.015 220);
-  --color-neutral-300: oklch(83%   0.020 220);
-  --color-neutral-400: oklch(71%   0.020 220);
-  --color-neutral-500: oklch(59%   0.018 220);
-  --color-neutral-600: oklch(48%   0.016 220);
-  --color-neutral-700: oklch(38%   0.014 220);
-  --color-neutral-800: oklch(27%   0.012 220);
-  --color-neutral-900: oklch(16%   0.008 220);
+  /* Neutrals — dark-first, low numbers = dark backgrounds */
+  --color-neutral-50:  oklch(12% 0.014 240);
+  --color-neutral-100: oklch(17% 0.018 240);
+  --color-neutral-200: oklch(24% 0.022 240);
+  --color-neutral-300: oklch(33% 0.024 235);
+  --color-neutral-400: oklch(48% 0.022 230);
+  --color-neutral-500: oklch(59% 0.018 225);
+  --color-neutral-600: oklch(70% 0.016 220);
+  --color-neutral-700: oklch(80% 0.013 220);
+  --color-neutral-800: oklch(89% 0.010 220);
+  --color-neutral-900: oklch(95% 0.007 220);
 
-  /* Surface & backgrounds */
-  --surface-background: oklch(98% 0.008 220);
-  --surface-card:       #ffffff;
-  --surface-raised:     oklch(99% 0.005 220);
-  --surface-sidebar:    oklch(18% 0.025 220);
-  --surface-code:       oklch(17% 0.020 230);
+  /* Surface & backgrounds — deep dark navy */
+  --surface-background: oklch(12% 0.018 240);
+  --surface-card:       oklch(17% 0.022 240);
+  --surface-raised:     oklch(22% 0.026 240);
+  --surface-sidebar:    oklch(10% 0.014 240);
+  --surface-code:       oklch(9%  0.012 240);
 
   /* Text */
-  --text-primary:   var(--color-neutral-900);
-  --text-secondary: var(--color-neutral-600);
-  --text-tertiary:  var(--color-neutral-400);
-  --text-inverse:   oklch(98% 0.005 220);
-  --text-code:      oklch(85% 0.050 200);
+  --text-primary:   oklch(93% 0.010 220);
+  --text-secondary: oklch(68% 0.018 220);
+  --text-tertiary:  oklch(50% 0.016 220);
+  --text-inverse:   oklch(12% 0.018 240);
+  --text-code:      oklch(80% 0.095 195);
 
   /* --- Typography --- */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -113,14 +113,19 @@
   --radius-2xl:  24px;
   --radius-full: 9999px;
 
-  /* --- Shadows --- */
-  --shadow-xs:  0 1px 2px oklch(0% 0 0 / 0.06);
-  --shadow-sm:  0 1px 3px oklch(0% 0 0 / 0.10), 0 1px 2px oklch(0% 0 0 / 0.06);
-  --shadow-md:  0 4px 6px oklch(0% 0 0 / 0.08), 0 2px 4px oklch(0% 0 0 / 0.05);
-  --shadow-lg:  0 10px 15px oklch(0% 0 0 / 0.10), 0 4px 6px oklch(0% 0 0 / 0.06);
-  --shadow-xl:  0 20px 25px oklch(0% 0 0 / 0.10), 0 8px 10px oklch(0% 0 0 / 0.06);
-  --shadow-primary: 0 4px 14px oklch(52% 0.165 220 / 0.30);
+  /* --- Shadows (deeper on dark backgrounds) --- */
+  --shadow-xs:  0 1px 2px oklch(0% 0 0 / 0.25);
+  --shadow-sm:  0 1px 3px oklch(0% 0 0 / 0.40), 0 1px 2px oklch(0% 0 0 / 0.25);
+  --shadow-md:  0 4px 6px oklch(0% 0 0 / 0.45), 0 2px 4px oklch(0% 0 0 / 0.30);
+  --shadow-lg:  0 10px 15px oklch(0% 0 0 / 0.50), 0 4px 6px oklch(0% 0 0 / 0.30);
+  --shadow-xl:  0 20px 25px oklch(0% 0 0 / 0.55), 0 8px 10px oklch(0% 0 0 / 0.35);
+  --shadow-primary: 0 0 0 1px oklch(68% 0.165 195 / 0.40), 0 4px 20px oklch(68% 0.165 195 / 0.20);
   --shadow-accent:  0 4px 14px oklch(72% 0.175 68 / 0.35);
+
+  /* --- Terminal window dot colors --- */
+  --terminal-dot-red:    #ff5f57;
+  --terminal-dot-yellow: #febc2e;
+  --terminal-dot-green:  #28c840;
 
   /* --- Transitions --- */
   --transition-fast:   150ms ease-out;
@@ -173,11 +178,11 @@ body {
 code {
   font-family: var(--font-mono);
   font-size: 0.875em;
-  background-color: var(--color-primary-50);
-  color: var(--color-primary-700);
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-600);
   padding: 0.125em 0.375em;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-primary-100);
+  border: 1px solid var(--color-primary-200);
 }
 
 /* --- Focus styles --- */
@@ -194,7 +199,7 @@ code {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-neutral-100);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -208,7 +213,7 @@ code {
 
 /* --- Selection --- */
 ::selection {
-  background-color: var(--color-primary-200);
+  background-color: var(--color-primary-300);
   color: var(--color-primary-900);
 }
 

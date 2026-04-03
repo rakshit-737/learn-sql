@@ -4,7 +4,7 @@ function SubqueriesTopic() {
   return (
     <div className="topic-content">
       <div className="content-header">
-        <h2>📊 Subqueries & Views</h2>
+        <h2>Subqueries &amp; Views</h2>
         <p>Nested queries and virtual tables for advanced data retrieval</p>
       </div>
 
