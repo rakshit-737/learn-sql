@@ -20,6 +20,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "npm run build && gh-pages -d build",
+    "deploy:vercel": "vercel --prod",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
