@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Interactive Database Systems Lab Learning Platform",
   "private": true,
-  "homepage": "https://rakshit-737.github.io/learn-sql",
+  "homepage": "/",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

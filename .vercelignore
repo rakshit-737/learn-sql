@@ -1,0 +1,23 @@
+# Lab assignment documents (not needed for deployment)
+*.docx
+*.pdf
+*.pptx
+*.ppt
+
+# Development files
+node_modules
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build artifacts
+build
+
+# Git
+.git
+
+# Misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
