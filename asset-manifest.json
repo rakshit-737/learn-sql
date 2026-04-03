@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/learn-sql/static/css/main.2a104ab5.css",
+    "main.js": "/learn-sql/static/js/main.378e37da.js",
+    "index.html": "/learn-sql/index.html",
+    "main.2a104ab5.css.map": "/learn-sql/static/css/main.2a104ab5.css.map",
+    "main.378e37da.js.map": "/learn-sql/static/js/main.378e37da.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2a104ab5.css",
+    "static/js/main.378e37da.js"
+  ]
+}
