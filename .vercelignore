@@ -1,0 +1,8 @@
+node_modules
+.git
+*.docx
+*.pdf
+*.ppt
+*.pptx
+*.md
+!README.md
