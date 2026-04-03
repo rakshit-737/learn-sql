@@ -1,0 +1,29 @@
+# Source documents (not needed for deployment)
+*.pdf
+*.docx
+*.pptx
+*.ppt
+*.doc
+
+# Development files
+node_modules/
+.git/
+coverage/
+.env.local
+.env.development.local
+.env.test.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS artifacts
+.DS_Store
+Thumbs.db
