@@ -1,0 +1,2357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering Database Systems Lab - Interactive Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            height: 100%;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .nav-item {
+            padding: 12px;
+            margin: 8px 0;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: #e8f4f8;
+            border-left-color: #667eea;
+        }
+
+        .nav-item.active {
+            background: #667eea;
+            color: white;
+            border-left-color: #667eea;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .topic-section {
+            display: none;
+        }
+
+        .topic-section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .concept-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        .concept-box strong {
+            color: #667eea;
+        }
+
+        .syntax-box {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .example-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        .example-box strong {
+            color: #ff8800;
+        }
+
+        .practice-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+
+        .exercise-card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .exercise-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .exercise-description {
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            min-height: 100px;
+            resize: vertical;
+            background: #f9f9f9;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .feedback.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .tips-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        .tips-box strong {
+            color: #1976d2;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .comparison-table tr:hover {
+            background: #f0f4ff;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin: 20px 0;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover {
+            color: #667eea;
+            background: none;
+            transform: none;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .keyword {
+            background: #fff59d;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .scroll-indicator {
+            text-align: center;
+            color: #999;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                overflow-x: auto;
+            }
+            .nav-item {
+                white-space: nowrap;
+                flex: 0 0 auto;
+            }
+            .content {
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗄️ Engineering Database Systems Lab</h1>
+            <p>Complete Interactive Learning Platform with Explanations & Practice Exercises</p>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar" id="sidebar">
+                <div class="nav-item active" data-topic="intro">📚 Getting Started</div>
+                <div class="nav-item" data-topic="dml">📝 DML Commands</div>
+                <div class="nav-item" data-topic="operators">⚙️ SQL Operators</div>
+                <div class="nav-item" data-topic="functions">🔧 Functions</div>
+                <div class="nav-item" data-topic="joins">🔗 Joins</div>
+                <div class="nav-item" data-topic="subqueries">🔍 Subqueries & Views</div>
+                <div class="nav-item" data-topic="sequences">📊 Sequences</div>
+                <div class="nav-item" data-topic="plsql">⚡ PL/SQL Basics</div>
+                <div class="nav-item" data-topic="procedures">🛠️ Procedures & Functions</div>
+                <div class="nav-item" data-topic="triggers">🔔 Triggers & Cursors</div>
+                <div class="nav-item" data-topic="quiz">🎯 Quiz & Assessment</div>
+            </div>
+
+            <div class="content" id="content">
+                <!-- Introduction Section -->
+                <div class="topic-section active" id="intro-section">
+                    <h2>Welcome to Database Systems Lab 🎓</h2>
+                    <p style="margin-bottom: 20px; font-size: 1.05em; line-height: 1.8;">
+                        This interactive learning platform is designed to help you master SQL and Database Systems concepts through detailed explanations, real-world examples, and hands-on practice exercises.
+                    </p>
+
+                    <h3>📋 What You'll Learn</h3>
+                    <div class="concept-box">
+                        <strong>Complete SQL Curriculum:</strong> From basic DML commands to advanced PL-SQL programming, trigger design, and cursor manipulation.
+                    </div>
+
+                    <h3>✨ Features</h3>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li><strong>Theory & Concepts:</strong> Comprehensive explanations with visual diagrams</li>
+                        <li><strong>Syntax Reference:</strong> Complete SQL syntax with color-coded examples</li>
+                        <li><strong>Practice Exercises:</strong> Hands-on problems with instant feedback</li>
+                        <li><strong>Error Checking:</strong> Automatic validation and mistake detection</li>
+                        <li><strong>Real Examples:</strong> Industry-relevant SQL queries and patterns</li>
+                        <li><strong>Progress Tracking:</strong> Monitor your learning journey</li>
+                    </ul>
+
+                    <h3>🚀 How to Use This Platform</h3>
+                    <ol style="margin-left: 20px; line-height: 2;">
+                        <li>Select a topic from the left sidebar</li>
+                        <li>Read through the concept explanations and examples</li>
+                        <li>Review the syntax and best practices</li>
+                        <li>Complete the practice exercises</li>
+                        <li>Check your answers and learn from mistakes</li>
+                        <li>Take the final quiz to assess your learning</li>
+                    </ol>
+
+                    <h3>📚 Curriculum Overview</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Topic</th>
+                            <th>Focus Area</th>
+                            <th>Difficulty</th>
+                        </tr>
+                        <tr>
+                            <td>DML Commands</td>
+                            <td>INSERT, UPDATE, DELETE operations</td>
+                            <td>Beginner</td>
+                        </tr>
+                        <tr>
+                            <td>SQL Operators</td>
+                            <td>Comparison, logical, arithmetic operators</td>
+                            <td>Beginner</td>
+                        </tr>
+                        <tr>
+                            <td>Functions</td>
+                            <td>String, numeric, date functions</td>
+                            <td>Intermediate</td>
+                        </tr>
+                        <tr>
+                            <td>Joins</td>
+                            <td>INNER, LEFT, RIGHT, FULL OUTER joins</td>
+                            <td>Intermediate</td>
+                        </tr>
+                        <tr>
+                            <td>Subqueries</td>
+                            <td>Nested queries and views</td>
+                            <td>Advanced</td>
+                        </tr>
+                        <tr>
+                            <td>PL/SQL</td>
+                            <td>Procedures, functions, triggers, cursors</td>
+                            <td>Advanced</td>
+                        </tr>
+                    </table>
+
+                    <div class="tips-box">
+                        <strong>💡 Pro Tip:</strong> Start with DML Commands if you're new to SQL. Each topic builds on previous knowledge, so follow the suggested order for best learning outcomes.
+                    </div>
+                </div>
+
+                <!-- DML Commands Section -->
+                <div class="topic-section" id="dml-section">
+                    <h2>DML Commands (Data Manipulation Language)</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        DML commands are used to manipulate the actual data(records) in the database. The most frequently used DML statements are SELECT, INSERT, UPDATE, and DELETE.
+                    </p>
+
+                    <h3>1️⃣ INSERT Statement</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> The INSERT statement is used to add new records (rows) to a table.
+                    </div>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 10px;">Syntax:</h4>
+                    <div class="syntax-box">
+INSERT INTO table_name (column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...);
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        INSERT INTO EMPLOYEES (EMP_ID, EMP_NAME, SALARY, DEPT_ID)
+                        VALUES (107, 'John Doe', 50000, 'IT');
+                    </div>
+
+                    <h3>2️⃣ UPDATE Statement</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> The UPDATE statement is used to modify existing records in a table.
+                    </div>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 10px;">Syntax:</h4>
+                    <div class="syntax-box">
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        UPDATE EMPLOYEES
+                        SET SALARY = 55000, DEPT_ID = 'HR'
+                        WHERE EMP_ID = 107;
+                    </div>
+
+                    <div class="tips-box">
+                        <strong>⚠️ Important:</strong> Always use a WHERE clause in UPDATE statements to specify which records to update. Without WHERE, ALL records will be updated!
+                    </div>
+
+                    <h3>3️⃣ DELETE Statement</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> The DELETE statement is used to remove records from a table.
+                    </div>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 10px;">Syntax:</h4>
+                    <div class="syntax-box">
+DELETE FROM table_name
+WHERE condition;
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        DELETE FROM EMPLOYEES
+                        WHERE EMP_ID = 107;
+                    </div>
+
+                    <h3>Key Differences:</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Statement</th>
+                            <th>Purpose</th>
+                            <th>Effect on Columns</th>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">INSERT</span></td>
+                            <td>Adds new rows</td>
+                            <td>Adds all column values</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">UPDATE</span></td>
+                            <td>Modifies existing rows</td>
+                            <td>Changes specific column values</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">DELETE</span></td>
+                            <td>Removes entire rows</td>
+                            <td>Removes entire row structure</td>
+                        </tr>
+                    </table>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 1: DML Basics</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 1.1: Write an INSERT Statement</div>
+                            <div class="exercise-description">
+                                Write an SQL INSERT statement to add a new product to the PRODUCTS table with the following values:
+                                - ProductID: 1001
+                                - ProductName: 'Laptop'
+                                - Price: 75000
+                                - StockQuantity: 50
+                            </div>
+                            <div class="input-group">
+                                <label for="dml-ex1">Your SQL Query:</label>
+                                <textarea id="dml-ex1" placeholder="INSERT INTO PRODUCTS..."></textarea>
+                            </div>
+                            <button onclick="checkDMLExercise1()">Check Answer</button>
+                            <div class="feedback" id="dml-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 1.2: Write an UPDATE Statement</div>
+                            <div class="exercise-description">
+                                Write an SQL UPDATE statement to increase the price of all laptops by 10%. (Assume the PRODUCTS table has ProductName and Price columns)
+                            </div>
+                            <div class="input-group">
+                                <label for="dml-ex2">Your SQL Query:</label>
+                                <textarea id="dml-ex2" placeholder="UPDATE PRODUCTS..."></textarea>
+                            </div>
+                            <button onclick="checkDMLExercise2()">Check Answer</button>
+                            <div class="feedback" id="dml-ex2-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 1.3: Write a DELETE Statement</div>
+                            <div class="exercise-description">
+                                Write an SQL DELETE statement to remove all products with StockQuantity less than 5 from the PRODUCTS table.
+                            </div>
+                            <div class="input-group">
+                                <label for="dml-ex3">Your SQL Query:</label>
+                                <textarea id="dml-ex3" placeholder="DELETE FROM PRODUCTS..."></textarea>
+                            </div>
+                            <button onclick="checkDMLExercise3()">Check Answer</button>
+                            <div class="feedback" id="dml-ex3-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SQL Operators Section -->
+                <div class="topic-section" id="operators-section">
+                    <h2>SQL Operators</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        SQL operators are used to specify conditions in WHERE clauses and to combine multiple conditions with multiple queries. They are essential for filtering and comparing data.
+                    </p>
+
+                    <h3>1️⃣ Arithmetic Operators</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Operator</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td>+</td>
+                            <td>Addition</td>
+                            <td>SELECT SALARY + 5000</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>Subtraction</td>
+                            <td>SELECT SALARY - 2000</td>
+                        </tr>
+                        <tr>
+                            <td>*</td>
+                            <td>Multiplication</td>
+                            <td>SELECT PRICE * 1.10</td>
+                        </tr>
+                        <tr>
+                            <td>/</td>
+                            <td>Division</td>
+                            <td>SELECT SALARY / 12</td>
+                        </tr>
+                        <tr>
+                            <td>%</td>
+                            <td>Modulus</td>
+                            <td>SELECT QUANTITY % 5</td>
+                        </tr>
+                    </table>
+
+                    <h3>2️⃣ Comparison Operators</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Operator</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td>=</td>
+                            <td>Equal to</td>
+                            <td>WHERE DEPT_ID = 'IT'</td>
+                        </tr>
+                        <tr>
+                            <td>!=, &lt;&gt;</td>
+                            <td>Not equal to</td>
+                            <td>WHERE STATUS != 'INACTIVE'</td>
+                        </tr>
+                        <tr>
+                            <td>&gt;</td>
+                            <td>Greater than</td>
+                            <td>WHERE SALARY > 50000</td>
+                        </tr>
+                        <tr>
+                            <td>&lt;</td>
+                            <td>Less than</td>
+                            <td>WHERE AGE < 30</td>
+                        </tr>
+                        <tr>
+                            <td>&gt;=</td>
+                            <td>Greater than or equal</td>
+                            <td>WHERE PRICE >= 1000</td>
+                        </tr>
+                        <tr>
+                            <td>&lt;=</td>
+                            <td>Less than or equal</td>
+                            <td>WHERE QUANTITY <= 100</td>
+                        </tr>
+                    </table>
+
+                    <h3>3️⃣ Logical Operators</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Operator</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">AND</span></td>
+                            <td>All conditions must be TRUE</td>
+                            <td>WHERE DEPT = 'IT' AND SALARY > 50000</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">OR</span></td>
+                            <td>At least one condition must be TRUE</td>
+                            <td>WHERE STATUS = 'ACTIVE' OR STATUS = 'PENDING'</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">NOT</span></td>
+                            <td>Negates a condition</td>
+                            <td>WHERE NOT STATUS = 'INACTIVE'</td>
+                        </tr>
+                    </table>
+
+                    <h3>4️⃣ Special Operators</h3>
+                    <div class="concept-box">
+                        <strong><span class="keyword">BETWEEN</span>:</strong> Selects values within a given range (inclusive)<br>
+                        WHERE AGE BETWEEN 25 AND 35
+                    </div>
+
+                    <div class="concept-box">
+                        <strong><span class="keyword">IN</span>:</strong> Allows multiple values in a WHERE clause<br>
+                        WHERE DEPT_ID IN ('IT', 'HR', 'FINANCE')
+                    </div>
+
+                    <div class="concept-box">
+                        <strong><span class="keyword">LIKE</span>:</strong> Searches for a specified pattern<br>
+                        WHERE EMP_NAME LIKE 'J%' (starts with J)
+                    </div>
+
+                    <div class="concept-box">
+                        <strong><span class="keyword">IS NULL</span>:</strong> Tests for NULL values<br>
+                        WHERE MANAGER_ID IS NULL
+                    </div>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 2: Operators</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 2.1: Arithmetic Operations</div>
+                            <div class="exercise-description">
+                                Write a SQL query to select employee names and their annual salary (multiply monthly salary by 12) where the annual salary is greater than 600000.
+                            </div>
+                            <div class="input-group">
+                                <label for="op-ex1">Your SQL Query:</label>
+                                <textarea id="op-ex1" placeholder="SELECT..."></textarea>
+                            </div>
+                            <button onclick="checkOperatorsExercise1()">Check Answer</button>
+                            <div class="feedback" id="op-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 2.2: Logical Operators</div>
+                            <div class="exercise-description">
+                                Query the EMPLOYEES table to find employees from IT or HR department who have a salary greater than 45000.
+                            </div>
+                            <div class="input-group">
+                                <label for="op-ex2">Your SQL Query:</label>
+                                <textarea id="op-ex2" placeholder="SELECT..."></textarea>
+                            </div>
+                            <button onclick="checkOperatorsExercise2()">Check Answer</button>
+                            <div class="feedback" id="op-ex2-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Functions Section -->
+                <div class="topic-section" id="functions-section">
+                    <h2>SQL Functions</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        SQL functions are built-in functions that operate on data and return results. Functions can be aggregate functions (work on multiple rows) or scalar functions (work on individual values).
+                    </p>
+
+                    <h3>📊 Aggregate Functions</h3>
+                    <p>These functions return a single result row based on groups of rows:</p>
+
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">COUNT()</span></td>
+                            <td>Returns the number of rows</td>
+                            <td>SELECT COUNT(*) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">SUM()</span></td>
+                            <td>Returns the sum of numeric values</td>
+                            <td>SELECT SUM(SALARY) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">AVG()</span></td>
+                            <td>Returns the average value</td>
+                            <td>SELECT AVG(SALARY) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">MAX()</span></td>
+                            <td>Returns the maximum value</td>
+                            <td>SELECT MAX(SALARY) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">MIN()</span></td>
+                            <td>Returns the minimum value</td>
+                            <td>SELECT MIN(SALARY) FROM EMPLOYEES</td>
+                        </tr>
+                    </table>
+
+                    <h3>🔤 String Functions</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">UPPER()</span></td>
+                            <td>Converts to uppercase</td>
+                            <td>SELECT UPPER(EMP_NAME) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">LOWER()</span></td>
+                            <td>Converts to lowercase</td>
+                            <td>SELECT LOWER(EMP_NAME) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">LENGTH()</span></td>
+                            <td>Returns length of string</td>
+                            <td>SELECT LENGTH(EMP_NAME) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">SUBSTR()</span></td>
+                            <td>Extracts substring</td>
+                            <td>SELECT SUBSTR(EMP_NAME, 1, 3) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">TRIM()</span></td>
+                            <td>Removes leading/trailing spaces</td>
+                            <td>SELECT TRIM(EMP_NAME) FROM EMPLOYEES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">REPLACE()</span></td>
+                            <td>Replaces substring</td>
+                            <td>SELECT REPLACE(EMP_NAME, 'John', 'Jane')</td>
+                        </tr>
+                    </table>
+
+                    <h3>🔢 Numeric Functions</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">ABS()</span></td>
+                            <td>Returns absolute value</td>
+                            <td>SELECT ABS(-50) returns 50</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">ROUND()</span></td>
+                            <td>Rounds to specified decimals</td>
+                            <td>SELECT ROUND(SALARY, 2)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">CEIL()</span></td>
+                            <td>Rounds up to integer</td>
+                            <td>SELECT CEIL(45.3) returns 46</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">FLOOR()</span></td>
+                            <td>Rounds down to integer</td>
+                            <td>SELECT FLOOR(45.9) returns 45</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">MOD()</span></td>
+                            <td>Returns remainder</td>
+                            <td>SELECT MOD(10, 3) returns 1</td>
+                        </tr>
+                    </table>
+
+                    <h3>📅 Date Functions</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">SYSDATE</span></td>
+                            <td>Returns current date</td>
+                            <td>SELECT SYSDATE FROM DUAL</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">TRUNC()</span></td>
+                            <td>Truncates date to specified unit</td>
+                            <td>SELECT TRUNC(SYSDATE, 'MM')</td>
+                        </tr>
+                        <tr>
+                            <td><span class="keyword">MONTHS_BETWEEN()</span></td>
+                            <td>Returns months between two dates</td>
+                            <td>SELECT MONTHS_BETWEEN(SYSDATE, DOB)</td>
+                        </tr>
+                    </table>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 3: Functions</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 3.1: Aggregate Function</div>
+                            <div class="exercise-description">
+                                Write a query to find the average salary of all employees in the IT department.
+                            </div>
+                            <div class="input-group">
+                                <label for="func-ex1">Your SQL Query:</label>
+                                <textarea id="func-ex1" placeholder="SELECT..."></textarea>
+                            </div>
+                            <button onclick="checkFunctionExercise1()">Check Answer</button>
+                            <div class="feedback" id="func-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 3.2: String Functions</div>
+                            <div class="exercise-description">
+                                Write a query to display employee names in uppercase along with the length of their names.
+                            </div>
+                            <div class="input-group">
+                                <label for="func-ex2">Your SQL Query:</label>
+                                <textarea id="func-ex2" placeholder="SELECT..."></textarea>
+                            </div>
+                            <button onclick="checkFunctionExercise2()">Check Answer</button>
+                            <div class="feedback" id="func-ex2-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Joins Section -->
+                <div class="topic-section" id="joins-section">
+                    <h2>SQL Joins</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        A JOIN clause is used to combine rows from two or more tables, based on a related column between them. Joins allow you to retrieve data from multiple tables in a single query.
+                    </p>
+
+                    <h3>1️⃣ INNER JOIN</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> Returns records that have matching values in both tables.
+                    </div>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 10px;">Syntax:</h4>
+                    <div class="syntax-box">
+SELECT columns
+FROM table1
+INNER JOIN table2
+ON table1.common_column = table2.common_column;
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        SELECT E.EMP_NAME, D.DEPT_NAME<br>
+                        FROM EMPLOYEES E<br>
+                        INNER JOIN DEPARTMENTS D<br>
+                        ON E.DEPT_ID = D.DEPT_ID;
+                    </div>
+
+                    <h3>2️⃣ LEFT JOIN (LEFT OUTER JOIN)</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> Returns all records from the left table, and the matched records from the right table. Non-matching rows show NULL for right table columns.
+                    </div>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 10px;">Syntax:</h4>
+                    <div class="syntax-box">
+SELECT columns
+FROM table1
+LEFT JOIN table2
+ON table1.common_column = table2.common_column;
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        SELECT E.EMP_NAME, D.DEPT_NAME<br>
+                        FROM EMPLOYEES E<br>
+                        LEFT JOIN DEPARTMENTS D<br>
+                        ON E.DEPT_ID = D.DEPT_ID;
+                    </div>
+
+                    <h3>3️⃣ RIGHT JOIN (RIGHT OUTER JOIN)</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> Returns all records from the right table, and the matched records from the left table. Non-matching rows show NULL for left table columns.
+                    </div>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 10px;">Syntax:</h4>
+                    <div class="syntax-box">
+SELECT columns
+FROM table1
+RIGHT JOIN table2
+ON table1.common_column = table2.common_column;
+                    </div>
+
+                    <h3>4️⃣ FULL OUTER JOIN</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> Returns records when there is a match in either left or right table. Combines the results of both LEFT and RIGHT JOINs.
+                    </div>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 10px;">Syntax:</h4>
+                    <div class="syntax-box">
+SELECT columns
+FROM table1
+FULL OUTER JOIN table2
+ON table1.common_column = table2.common_column;
+                    </div>
+
+                    <h3>5️⃣ CROSS JOIN</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> Returns the Cartesian product (all possible combinations) of two tables.
+                    </div>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 10px;">Syntax:</h4>
+                    <div class="syntax-box">
+SELECT columns
+FROM table1
+CROSS JOIN table2;
+                    </div>
+
+                    <h3>Join Types Comparison:</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Join Type</th>
+                            <th>Returns</th>
+                            <th>Best Used For</th>
+                        </tr>
+                        <tr>
+                            <td>INNER JOIN</td>
+                            <td>Matching records only</td>
+                            <td>When you need data present in both tables</td>
+                        </tr>
+                        <tr>
+                            <td>LEFT JOIN</td>
+                            <td>All left + matched right records</td>
+                            <td>When you want all records from left table</td>
+                        </tr>
+                        <tr>
+                            <td>RIGHT JOIN</td>
+                            <td>All right + matched left records</td>
+                            <td>When you want all records from right table</td>
+                        </tr>
+                        <tr>
+                            <td>FULL OUTER JOIN</td>
+                            <td>All records from both tables</td>
+                            <td>When you need all data from both tables</td>
+                        </tr>
+                        <tr>
+                            <td>CROSS JOIN</td>
+                            <td>All combinations</td>
+                            <td>Rarely used; creates massive result sets</td>
+                        </tr>
+                    </table>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 4: Joins</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 4.1: INNER JOIN</div>
+                            <div class="exercise-description">
+                                Write a query to display employee names and their corresponding department names using INNER JOIN.
+                            </div>
+                            <div class="input-group">
+                                <label for="join-ex1">Your SQL Query:</label>
+                                <textarea id="join-ex1" placeholder="SELECT..."></textarea>
+                            </div>
+                            <button onclick="checkJoinExercise1()">Check Answer</button>
+                            <div class="feedback" id="join-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 4.2: LEFT JOIN</div>
+                            <div class="exercise-description">
+                                Write a query to display all employees and their department names. Show department name as 'Unassigned' for employees with no department.
+                            </div>
+                            <div class="input-group">
+                                <label for="join-ex2">Your SQL Query:</label>
+                                <textarea id="join-ex2" placeholder="SELECT..."></textarea>
+                            </div>
+                            <button onclick="checkJoinExercise2()">Check Answer</button>
+                            <div class="feedback" id="join-ex2-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subqueries Section -->
+                <div class="topic-section" id="subqueries-section">
+                    <h2>Subqueries & Views</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        A subquery is a query within another query. The query that contains the subquery is called the outer query or main query. Views are virtual tables based on a SELECT query.
+                    </p>
+
+                    <h3>🔍 Subqueries (Inner Queries)</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> A subquery is used to return data that will be used by the main query as a condition to further restrict the data to be retrieved.
+                    </div>
+
+                    <h3>Types of Subqueries:</h3>
+
+                    <h4 style="margin-top: 15px;">1. Single Row Subquery</h4>
+                    <div class="syntax-box">
+SELECT columns
+FROM table1
+WHERE column = (
+    SELECT column FROM table2
+    WHERE condition
+);
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        SELECT EMP_NAME, SALARY<br>
+                        FROM EMPLOYEES<br>
+                        WHERE SALARY > (SELECT AVG(SALARY) FROM EMPLOYEES);
+                    </div>
+
+                    <h4 style="margin-top: 20px;">2. Multiple Row Subquery</h4>
+                    <div class="syntax-box">
+SELECT columns
+FROM table1
+WHERE column IN (
+    SELECT column FROM table2
+    WHERE condition
+);
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        SELECT EMP_NAME<br>
+                        FROM EMPLOYEES<br>
+                        WHERE DEPT_ID IN (SELECT DEPT_ID FROM DEPARTMENTS WHERE LOCATION = 'New York');
+                    </div>
+
+                    <h4 style="margin-top: 20px;">3. Correlated Subquery</h4>
+                    <div class="syntax-box">
+SELECT columns
+FROM table1 outer_alias
+WHERE condition IN (
+    SELECT column FROM table2
+    WHERE table2.column = outer_alias.column
+);
+                    </div>
+
+                    <h3>👁️ Views</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> A view is a virtual table created based on the result-set of a SELECT statement. Views contain rows and columns just like a real table, but the data is derived from one or more tables.
+                    </div>
+
+                    <h4 style="margin-top: 15px;">Syntax to Create a View:</h4>
+                    <div class="syntax-box">
+CREATE VIEW view_name AS
+SELECT columns
+FROM table_name
+WHERE condition;
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        CREATE VIEW HIGH_SALARY_EMPLOYEES AS<br>
+                        SELECT EMP_ID, EMP_NAME, SALARY<br>
+                        FROM EMPLOYEES<br>
+                        WHERE SALARY > 60000;
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Querying a View:</h4>
+                    <div class="syntax-box">
+SELECT columns FROM view_name WHERE condition;
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Alter a View:</h4>
+                    <div class="syntax-box">
+ALTER VIEW view_name AS
+SELECT new_columns FROM table_name WHERE new_condition;
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Drop a View:</h4>
+                    <div class="syntax-box">
+DROP VIEW view_name;
+                    </div>
+
+                    <h3>Advantages of Views:</h3>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Simplifies complex queries</li>
+                        <li>Provides security by restricting access to specific columns/rows</li>
+                        <li>Hides complexity from users</li>
+                        <li>Acts as a stored SELECT statement</li>
+                        <li>Maintains consistency of data</li>
+                    </ul>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 5: Subqueries & Views</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 5.1: Single Row Subquery</div>
+                            <div class="exercise-description">
+                                Write a query to display the name and salary of the employee who earns the maximum salary.
+                            </div>
+                            <div class="input-group">
+                                <label for="sub-ex1">Your SQL Query:</label>
+                                <textarea id="sub-ex1" placeholder="SELECT..."></textarea>
+                            </div>
+                            <button onclick="checkSubqueryExercise1()">Check Answer</button>
+                            <div class="feedback" id="sub-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 5.2: Multiple Row Subquery</div>
+                            <div class="exercise-description">
+                                Write a query to find all employees who work in departments that have 'IT' in their department name.
+                            </div>
+                            <div class="input-group">
+                                <label for="sub-ex2">Your SQL Query:</label>
+                                <textarea id="sub-ex2" placeholder="SELECT..."></textarea>
+                            </div>
+                            <button onclick="checkSubqueryExercise2()">Check Answer</button>
+                            <div class="feedback" id="sub-ex2-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 5.3: Create a View</div>
+                            <div class="exercise-description">
+                                Create a view named 'DEPT_EMPLOYEE_COUNT' that shows department names and the count of employees in each department.
+                            </div>
+                            <div class="input-group">
+                                <label for="sub-ex3">Your SQL Query:</label>
+                                <textarea id="sub-ex3" placeholder="CREATE VIEW..."></textarea>
+                            </div>
+                            <button onclick="checkSubqueryExercise3()">Check Answer</button>
+                            <div class="feedback" id="sub-ex3-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sequences Section -->
+                <div class="topic-section" id="sequences-section">
+                    <h2>Sequences & Synonyms</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        Sequences are used to generate unique numbers automatically. Synonyms are alternative names for objects in the database.
+                    </p>
+
+                    <h3>🔢 Sequences</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> A sequence is a database object that generates a series of unique numeric values. It's commonly used to generate primary key values.
+                    </div>
+
+                    <h4 style="margin-top: 15px;">Create a Sequence:</h4>
+                    <div class="syntax-box">
+CREATE SEQUENCE sequence_name
+[START WITH start_value]
+[INCREMENT BY increment_value]
+[MAXVALUE max_value]
+[MINVALUE min_value]
+[CYCLE|NOCYCLE]
+[CACHE cache_size];
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        CREATE SEQUENCE EMP_SEQ<br>
+                        START WITH 1001<br>
+                        INCREMENT BY 1<br>
+                        MAXVALUE 9999<br>
+                        NOCYCLE<br>
+                        CACHE 20;
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Using Sequences:</h4>
+                    <div class="concept-box">
+                        <strong>NEXTVAL:</strong> Returns the next value from the sequence<br>
+                        <strong>CURRVAL:</strong> Returns the current value of the sequence
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        INSERT INTO EMPLOYEES (EMP_ID, EMP_NAME, SALARY)<br>
+                        VALUES (EMP_SEQ.NEXTVAL, 'John Doe', 50000);
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Alter a Sequence:</h4>
+                    <div class="syntax-box">
+ALTER SEQUENCE sequence_name
+[INCREMENT BY increment_value]
+[MAXVALUE max_value]
+[MINVALUE min_value];
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Drop a Sequence:</h4>
+                    <div class="syntax-box">
+DROP SEQUENCE sequence_name;
+                    </div>
+
+                    <h3>🔗 Synonyms</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> A synonym is an alternative name for a schema object (table, view, sequence, etc.). It provides a shorter or more convenient name for objects.
+                    </div>
+
+                    <h4 style="margin-top: 15px;">Create a Synonym:</h4>
+                    <div class="syntax-box">
+CREATE SYNONYM synonym_name FOR object_owner.object_name;
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        CREATE SYNONYM EMP FOR HR.EMPLOYEES;<br>
+                        -- Now you can use: SELECT * FROM EMP;
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Public vs Private Synonyms:</h4>
+                    <div class="syntax-box">
+-- Public Synonym (accessible by all users)
+CREATE PUBLIC SYNONYM EMP FOR HR.EMPLOYEES;
+
+-- Private Synonym (accessible by creator only)
+CREATE SYNONYM EMP FOR HR.EMPLOYEES;
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Drop a Synonym:</h4>
+                    <div class="syntax-box">
+DROP SYNONYM synonym_name;
+DROP PUBLIC SYNONYM synonym_name;
+                    </div>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 6: Sequences & Synonyms</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 6.1: Create a Sequence</div>
+                            <div class="exercise-description">
+                                Create a sequence named 'PRODUCT_SEQ' that starts with 500, increments by 1, has a maximum value of 5000, and caches 10 values.
+                            </div>
+                            <div class="input-group">
+                                <label for="seq-ex1">Your SQL Query:</label>
+                                <textarea id="seq-ex1" placeholder="CREATE SEQUENCE..."></textarea>
+                            </div>
+                            <button onclick="checkSequenceExercise1()">Check Answer</button>
+                            <div class="feedback" id="seq-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 6.2: Insert Using Sequence</div>
+                            <div class="exercise-description">
+                                Write an INSERT statement that adds a new product using the PRODUCT_SEQ sequence. Product Name: 'Tablet', Price: 25000.
+                            </div>
+                            <div class="input-group">
+                                <label for="seq-ex2">Your SQL Query:</label>
+                                <textarea id="seq-ex2" placeholder="INSERT INTO..."></textarea>
+                            </div>
+                            <button onclick="checkSequenceExercise2()">Check Answer</button>
+                            <div class="feedback" id="seq-ex2-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 6.3: Create a Synonym</div>
+                            <div class="exercise-description">
+                                Create a private synonym 'EMP' for the 'HR.EMPLOYEES' table, and write a query to select all data from this synonym.
+                            </div>
+                            <div class="input-group">
+                                <label for="seq-ex3">Your SQL Query:</label>
+                                <textarea id="seq-ex3" placeholder="CREATE SYNONYM..."></textarea>
+                            </div>
+                            <button onclick="checkSequenceExercise3()">Check Answer</button>
+                            <div class="feedback" id="seq-ex3-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PL/SQL Basics Section -->
+                <div class="topic-section" id="plsql-section">
+                    <h2>PL/SQL Basics</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        PL/SQL (Procedural Language/Structured Query Language) is Oracle's procedural extension of standard SQL. It enables writing of complete applications and allows combining SQL with procedural statements.
+                    </p>
+
+                    <h3>📝 PL/SQL Block Structure</h3>
+                    <div class="syntax-box">
+DECLARE
+    -- Variable declarations
+    variable_name datatype;
+BEGIN
+    -- Executable statements
+    SQL statements;
+    PL/SQL statements;
+EXCEPTION
+    -- Error handling
+    WHEN exception_type THEN
+        -- Handle exception
+END;
+/
+                    </div>
+
+                    <h3>🔢 Data Types</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Category</th>
+                            <th>Data Type</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>Character</td>
+                            <td>CHAR, VARCHAR2</td>
+                            <td>Fixed or variable-length strings</td>
+                        </tr>
+                        <tr>
+                            <td>Numeric</td>
+                            <td>NUMBER, INTEGER, DECIMAL</td>
+                            <td>Numeric values</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td>DATE, TIMESTAMP</td>
+                            <td>Date and time values</td>
+                        </tr>
+                        <tr>
+                            <td>Boolean</td>
+                            <td>BOOLEAN</td>
+                            <td>TRUE, FALSE, or NULL</td>
+                        </tr>
+                    </table>
+
+                    <h3>💾 Variable Declaration</h3>
+                    <div class="syntax-box">
+DECLARE
+    emp_name VARCHAR2(50);
+    emp_salary NUMBER(10,2);
+    hire_date DATE;
+    is_active BOOLEAN;
+BEGIN
+    emp_name := 'John Doe';
+    emp_salary := 50000.00;
+    hire_date := SYSDATE;
+    is_active := TRUE;
+END;
+/
+                    </div>
+
+                    <h3>🔄 Control Structures</h3>
+
+                    <h4 style="margin-top: 15px;">IF-THEN-ELSE Statement:</h4>
+                    <div class="syntax-box">
+IF condition THEN
+    statements;
+ELSIF condition THEN
+    statements;
+ELSE
+    statements;
+END IF;
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        IF salary > 50000 THEN<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;bonus := salary * 0.10;<br>
+                        ELSIF salary > 30000 THEN<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;bonus := salary * 0.05;<br>
+                        ELSE<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;bonus := 0;<br>
+                        END IF;
+                    </div>
+
+                    <h4 style="margin-top: 20px;">LOOP Statements:</h4>
+                    <div class="syntax-box">
+-- Simple LOOP
+LOOP
+    statements;
+    EXIT WHEN condition;
+END LOOP;
+
+-- FOR LOOP
+FOR counter IN start_value .. end_value LOOP
+    statements;
+END LOOP;
+
+-- WHILE LOOP
+WHILE condition LOOP
+    statements;
+END LOOP;
+                    </div>
+
+                    <h3>⚠️ Exception Handling</h3>
+                    <div class="syntax-box">
+BEGIN
+    -- Executable statements
+    INSERT INTO EMPLOYEES VALUES (...);
+EXCEPTION
+    WHEN DUP_VAL_ON_INDEX THEN
+        DBMS_OUTPUT.PUT_LINE('Duplicate value error');
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('Too many rows found');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Unknown error occurred');
+END;
+/
+                    </div>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 7: PL/SQL Basics</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 7.1: Simple PL/SQL Block</div>
+                            <div class="exercise-description">
+                                Write a PL/SQL block that declares two variables (emp_id and emp_salary), assigns values to them, and displays them using DBMS_OUTPUT.
+                            </div>
+                            <div class="input-group">
+                                <label for="plsql-ex1">Your PL/SQL Code:</label>
+                                <textarea id="plsql-ex1" placeholder="DECLARE..."></textarea>
+                            </div>
+                            <button onclick="checkPLSQLExercise1()">Check Answer</button>
+                            <div class="feedback" id="plsql-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 7.2: IF-THEN-ELSE</div>
+                            <div class="exercise-description">
+                                Write a PL/SQL block that checks if a salary is greater than 50000. If yes, calculate a 15% bonus; otherwise, calculate a 5% bonus.
+                            </div>
+                            <div class="input-group">
+                                <label for="plsql-ex2">Your PL/SQL Code:</label>
+                                <textarea id="plsql-ex2" placeholder="DECLARE..."></textarea>
+                            </div>
+                            <button onclick="checkPLSQLExercise2()">Check Answer</button>
+                            <div class="feedback" id="plsql-ex2-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Procedures & Functions Section -->
+                <div class="topic-section" id="procedures-section">
+                    <h2>Stored Procedures & Functions</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        Stored procedures and functions are reusable PL/SQL programs that perform specific tasks. They are stored in the database and can be called by other programs.
+                    </p>
+
+                    <h3>🛠️ Stored Procedures</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> A stored procedure is a named PL/SQL block that performs a specific task. It can accept parameters and perform complex operations.
+                    </div>
+
+                    <h4 style="margin-top: 15px;">Create a Procedure:</h4>
+                    <div class="syntax-box">
+CREATE PROCEDURE procedure_name (
+    parameter1 [IN|OUT|IN OUT] datatype,
+    parameter2 [IN|OUT|IN OUT] datatype
+) IS
+BEGIN
+    -- Procedure body
+    -- SQL and PL/SQL statements
+END procedure_name;
+/
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        CREATE PROCEDURE add_employee (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;p_emp_id IN NUMBER,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;p_emp_name IN VARCHAR2,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;p_salary IN NUMBER<br>
+                        ) IS<br>
+                        BEGIN<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;INSERT INTO EMPLOYEES (EMP_ID, EMP_NAME, SALARY)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;VALUES (p_emp_id, p_emp_name, p_salary);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;COMMIT;<br>
+                        END add_employee;<br>
+                        /
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Execute a Procedure:</h4>
+                    <div class="syntax-box">
+-- Using EXECUTE statement
+EXECUTE procedure_name(param1, param2);
+
+-- Using CALL statement
+CALL procedure_name(param1, param2);
+
+-- Inside PL/SQL block
+BEGIN
+    procedure_name(param1, param2);
+END;
+/
+                    </div>
+
+                    <h3>📊 Stored Functions</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> A function is similar to a procedure, but it MUST return a single value. Functions are typically used in SQL statements.
+                    </div>
+
+                    <h4 style="margin-top: 15px;">Create a Function:</h4>
+                    <div class="syntax-box">
+CREATE FUNCTION function_name (
+    parameter1 datatype,
+    parameter2 datatype
+) RETURN return_datatype IS
+    -- Variable declarations
+BEGIN
+    -- Function body
+    -- Must include a RETURN statement
+    RETURN value;
+END function_name;
+/
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example:</strong><br>
+                        CREATE FUNCTION get_annual_salary (p_monthly_salary NUMBER) RETURN NUMBER IS<br>
+                        BEGIN<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;RETURN (p_monthly_salary * 12);<br>
+                        END get_annual_salary;<br>
+                        /
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Call a Function:</h4>
+                    <div class="syntax-box">
+-- In SQL statement
+SELECT EMP_NAME, get_annual_salary(SALARY) AS ANNUAL_SALARY
+FROM EMPLOYEES;
+
+-- In PL/SQL block
+DECLARE
+    annual_sal NUMBER;
+BEGIN
+    annual_sal := get_annual_salary(50000);
+    DBMS_OUTPUT.PUT_LINE('Annual Salary: ' || annual_sal);
+END;
+/
+                    </div>
+
+                    <h3>Procedure vs Function:</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Procedure</th>
+                            <th>Function</th>
+                        </tr>
+                        <tr>
+                            <td>Return Value</td>
+                            <td>Optional (0, 1, or multiple)</td>
+                            <td>Must return exactly one value</td>
+                        </tr>
+                        <tr>
+                            <td>Parameters</td>
+                            <td>IN, OUT, IN OUT</td>
+                            <td>Only IN parameters</td>
+                        </tr>
+                        <tr>
+                            <td>Used in SQL</td>
+                            <td>Cannot be used in SQL</td>
+                            <td>Can be used in SQL statements</td>
+                        </tr>
+                        <tr>
+                            <td>Calling</td>
+                            <td>CALL or EXECUTE</td>
+                            <td>Called like a function in SQL</td>
+                        </tr>
+                    </table>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 8: Procedures & Functions</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 8.1: Create a Procedure</div>
+                            <div class="exercise-description">
+                                Create a procedure named 'raise_salary' that takes an employee ID and a raise percentage as parameters, and updates the employee's salary accordingly.
+                            </div>
+                            <div class="input-group">
+                                <label for="proc-ex1">Your PL/SQL Code:</label>
+                                <textarea id="proc-ex1" placeholder="CREATE PROCEDURE..."></textarea>
+                            </div>
+                            <button onclick="checkProcedureExercise1()">Check Answer</button>
+                            <div class="feedback" id="proc-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 8.2: Create a Function</div>
+                            <div class="exercise-description">
+                                Create a function named 'calculate_tax' that takes a salary amount as parameter and returns 20% of the salary as tax amount.
+                            </div>
+                            <div class="input-group">
+                                <label for="proc-ex2">Your PL/SQL Code:</label>
+                                <textarea id="proc-ex2" placeholder="CREATE FUNCTION..."></textarea>
+                            </div>
+                            <button onclick="checkProcedureExercise2()">Check Answer</button>
+                            <div class="feedback" id="proc-ex2-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Triggers Section -->
+                <div class="topic-section" id="triggers-section">
+                    <h2>Triggers & Cursors</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        Triggers are special stored procedures that execute automatically in response to specific events on a database table. Cursors are used to process rows returned by a query.
+                    </p>
+
+                    <h3>🔔 Triggers</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> A trigger is a special type of stored procedure that automatically executes (or "fires") in response to specific events on a particular table in the database.
+                    </div>
+
+                    <h3>Trigger Events:</h3>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li><span class="keyword">INSERT</span> - Fires when a new row is inserted</li>
+                        <li><span class="keyword">UPDATE</span> - Fires when an existing row is updated</li>
+                        <li><span class="keyword">DELETE</span> - Fires when a row is deleted</li>
+                    </ul>
+
+                    <h3>Trigger Timing:</h3>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li><span class="keyword">BEFORE</span> - Fires before the triggering event</li>
+                        <li><span class="keyword">AFTER</span> - Fires after the triggering event</li>
+                    </ul>
+
+                    <h4 style="margin-top: 15px;">Create a Trigger Syntax:</h4>
+                    <div class="syntax-box">
+CREATE [OR REPLACE] TRIGGER trigger_name
+{BEFORE | AFTER} {INSERT | UPDATE | DELETE}
+ON table_name
+[FOR EACH ROW]
+BEGIN
+    -- Trigger body
+    -- PL/SQL statements
+END trigger_name;
+/
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example: AFTER INSERT Trigger</strong><br>
+                        CREATE OR REPLACE TRIGGER emp_audit_insert<br>
+                        AFTER INSERT ON EMPLOYEES<br>
+                        FOR EACH ROW<br>
+                        BEGIN<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;INSERT INTO EMP_AUDIT (EMP_ID, ACTION, ACTION_DATE)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;VALUES (:NEW.EMP_ID, 'INSERTED', SYSDATE);<br>
+                        END emp_audit_insert;<br>
+                        /
+                    </div>
+
+                    <div class="tips-box">
+                        <strong>💡 Important:</strong> Use :NEW to reference new values after INSERT/UPDATE, and :OLD to reference old values before UPDATE/DELETE.
+                    </div>
+
+                    <h3>📋 Cursors</h3>
+                    <div class="concept-box">
+                        <strong>Purpose:</strong> A cursor is a memory area that stores the context of the query. Cursors are used to process rows returned by a query one at a time.
+                    </div>
+
+                    <h3>Types of Cursors:</h3>
+
+                    <h4 style="margin-top: 15px;">1. Implicit Cursors</h4>
+                    <div class="concept-box">
+                        Automatically created by Oracle for DML statements (INSERT, UPDATE, DELETE, SELECT). No need to declare or open explicitly.
+                    </div>
+
+                    <h4 style="margin-top: 20px;">2. Explicit Cursors</h4>
+                    <div class="syntax-box">
+-- Declare cursor
+DECLARE
+    CURSOR cursor_name IS
+        SELECT statement;
+BEGIN
+    -- Open cursor
+    OPEN cursor_name;
+    
+    -- Fetch rows
+    FETCH cursor_name INTO variables;
+    
+    -- Process rows
+    -- ...
+    
+    -- Close cursor
+    CLOSE cursor_name;
+END;
+/
+                    </div>
+
+                    <div class="example-box">
+                        <strong>📌 Example: Explicit Cursor</strong><br>
+                        DECLARE<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;CURSOR emp_cursor IS<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT EMP_ID, EMP_NAME, SALARY FROM EMPLOYEES;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;v_emp_id NUMBER;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;v_emp_name VARCHAR2(50);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;v_salary NUMBER;<br>
+                        BEGIN<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;OPEN emp_cursor;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;LOOP<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FETCH emp_cursor INTO v_emp_id, v_emp_name, v_salary;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN emp_cursor%NOTFOUND;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE(v_emp_id || ' ' || v_emp_name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;END LOOP;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;CLOSE emp_cursor;<br>
+                        END;<br>
+                        /
+                    </div>
+
+                    <h3>Cursor Attributes:</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>%FOUND</td>
+                            <td>TRUE if FETCH returned a row</td>
+                        </tr>
+                        <tr>
+                            <td>%NOTFOUND</td>
+                            <td>TRUE if FETCH did not return a row</td>
+                        </tr>
+                        <tr>
+                            <td>%ROWCOUNT</td>
+                            <td>Number of rows fetched so far</td>
+                        </tr>
+                        <tr>
+                            <td>%ISOPEN</td>
+                            <td>TRUE if cursor is open</td>
+                        </tr>
+                    </table>
+
+                    <div class="practice-section">
+                        <h3>✏️ Practice Exercise 9: Triggers & Cursors</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 9.1: Create a Trigger</div>
+                            <div class="exercise-description">
+                                Create a trigger that automatically updates an UPDATE_TIMESTAMP column in the EMPLOYEES table whenever a record is updated.
+                            </div>
+                            <div class="input-group">
+                                <label for="trig-ex1">Your PL/SQL Code:</label>
+                                <textarea id="trig-ex1" placeholder="CREATE TRIGGER..."></textarea>
+                            </div>
+                            <button onclick="checkTriggerExercise1()">Check Answer</button>
+                            <div class="feedback" id="trig-ex1-feedback"></div>
+                        </div>
+
+                        <div class="exercise-card">
+                            <div class="exercise-title">Exercise 9.2: Use Cursor</div>
+                            <div class="exercise-description">
+                                Write a PL/SQL block that declares and uses a cursor to fetch and print the names of all employees earning more than 40000.
+                            </div>
+                            <div class="input-group">
+                                <label for="trig-ex2">Your PL/SQL Code:</label>
+                                <textarea id="trig-ex2" placeholder="DECLARE..."></textarea>
+                            </div>
+                            <button onclick="checkTriggerExercise2()">Check Answer</button>
+                            <div class="feedback" id="trig-ex2-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Section -->
+                <div class="topic-section" id="quiz-section">
+                    <h2>🎯 Final Assessment Quiz</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.8;">
+                        Test your knowledge with this comprehensive quiz covering all the topics you've learned. Track your progress and identify areas for improvement.
+                    </p>
+
+                    <div class="practice-section">
+                        <h3>Question 1: DML Commands</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-description">
+                                What is the primary purpose of the UPDATE statement?
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <label><input type="radio" name="q1" value="a"> To add new records to a table</label><br>
+                                <label><input type="radio" name="q1" value="b"> To modify existing records in a table</label><br>
+                                <label><input type="radio" name="q1" value="c"> To remove records from a table</label><br>
+                                <label><input type="radio" name="q1" value="d"> To retrieve data from multiple tables</label>
+                            </div>
+                        </div>
+
+                        <h3>Question 2: SQL Functions</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-description">
+                                Which function returns the number of rows in a result set?
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <label><input type="radio" name="q2" value="a"> SUM()</label><br>
+                                <label><input type="radio" name="q2" value="b"> COUNT()</label><br>
+                                <label><input type="radio" name="q2" value="c"> AVG()</label><br>
+                                <label><input type="radio" name="q2" value="d"> MAX()</label>
+                            </div>
+                        </div>
+
+                        <h3>Question 3: JOINs</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-description">
+                                Which JOIN returns all records from the left table and matching records from the right table?
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <label><input type="radio" name="q3" value="a"> INNER JOIN</label><br>
+                                <label><input type="radio" name="q3" value="b"> LEFT JOIN</label><br>
+                                <label><input type="radio" name="q3" value="c"> RIGHT JOIN</label><br>
+                                <label><input type="radio" name="q3" value="d"> FULL OUTER JOIN</label>
+                            </div>
+                        </div>
+
+                        <h3>Question 4: Views</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-description">
+                                What is a view in SQL?
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <label><input type="radio" name="q4" value="a"> A physical table that stores data</label><br>
+                                <label><input type="radio" name="q4" value="b"> A virtual table based on a SELECT query</label><br>
+                                <label><input type="radio" name="q4" value="c"> A backup copy of a table</label><br>
+                                <label><input type="radio" name="q4" value="d"> An index on a table</label>
+                            </div>
+                        </div>
+
+                        <h3>Question 5: Sequences</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-description">
+                                What is the purpose of a SEQUENCE in SQL?
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <label><input type="radio" name="q5" value="a"> To store character data</label><br>
+                                <label><input type="radio" name="q5" value="b"> To generate unique numeric values automatically</label><br>
+                                <label><input type="radio" name="q5" value="c"> To create a backup of data</label><br>
+                                <label><input type="radio" name="q5" value="d"> To define table constraints</label>
+                            </div>
+                        </div>
+
+                        <h3>Question 6: PL/SQL</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-description">
+                                What is the main difference between a procedure and a function?
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <label><input type="radio" name="q6" value="a"> Procedures are faster than functions</label><br>
+                                <label><input type="radio" name="q6" value="b"> Functions must return exactly one value; procedures are optional</label><br>
+                                <label><input type="radio" name="q6" value="c"> Procedures cannot accept parameters</label><br>
+                                <label><input type="radio" name="q6" value="d"> Functions can only be called from SQL statements</label>
+                            </div>
+                        </div>
+
+                        <h3>Question 7: Triggers</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-description">
+                                When does a BEFORE INSERT trigger fire?
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <label><input type="radio" name="q7" value="a"> After a row is inserted</label><br>
+                                <label><input type="radio" name="q7" value="b"> Before a row is inserted</label><br>
+                                <label><input type="radio" name="q7" value="c"> During the INSERT statement</label><br>
+                                <label><input type="radio" name="q7" value="d"> When the row is deleted</label>
+                            </div>
+                        </div>
+
+                        <h3>Question 8: Cursors</h3>
+                        <div class="exercise-card">
+                            <div class="exercise-description">
+                                Which cursor attribute returns TRUE if FETCH did not return any row?
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <label><input type="radio" name="q8" value="a"> %FOUND</label><br>
+                                <label><input type="radio" name="q8" value="b"> %NOTFOUND</label><br>
+                                <label><input type="radio" name="q8" value="c"> %ROWCOUNT</label><br>
+                                <label><input type="radio" name="q8" value="d"> %ISOPEN</label>
+                            </div>
+                        </div>
+
+                        <button onclick="submitQuiz()" style="width: 100%; margin-top: 20px; padding: 15px; font-size: 1.1em;">
+                            Submit Quiz
+                        </button>
+                        <div class="feedback" id="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            q1: 'b',
+            q2: 'b',
+            q3: 'b',
+            q4: 'b',
+            q5: 'b',
+            q6: 'b',
+            q7: 'b',
+            q8: 'b'
+        };
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const topic = this.getAttribute('data-topic');
+                switchTopic(topic);
+            });
+        });
+
+        function switchTopic(topic) {
+            // Hide all sections
+            document.querySelectorAll('.topic-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Deactivate all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(topic + '-section').classList.add('active');
+
+            // Activate nav item
+            document.querySelector('[data-topic="' + topic + '"]').classList.add('active');
+
+            // Scroll to top
+            document.getElementById('content').scrollTop = 0;
+        }
+
+        // Exercise checking functions
+        function checkDMLExercise1() {
+            const userAnswer = document.getElementById('dml-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('dml-ex1-feedback');
+            
+            if (userAnswer.includes('INSERT INTO') && userAnswer.includes('PRODUCTS') && 
+                userAnswer.includes('1001') && userAnswer.includes('LAPTOP')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! Your INSERT statement is well-formed. Make sure the column order matches your table schema.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Remember: INSERT INTO table_name (columns) VALUES (values). Check that you\'re using the correct column names and values.';
+            }
+        }
+
+        function checkDMLExercise2() {
+            const userAnswer = document.getElementById('dml-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('dml-ex2-feedback');
+            
+            if (userAnswer.includes('UPDATE') && userAnswer.includes('PRODUCTS') && 
+                userAnswer.includes('PRICE') && (userAnswer.includes('*') || userAnswer.includes('1.1'))) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! Your UPDATE statement multiplies the price by 1.1 (10% increase). Don\'t forget the WHERE clause if you only wanted to update specific products!';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use UPDATE table SET column = column * 1.1 WHERE condition. Remember to include a WHERE clause to specify which products to update!';
+            }
+        }
+
+        function checkDMLExercise3() {
+            const userAnswer = document.getElementById('dml-ex3').value.trim().toUpperCase();
+            const feedback = document.getElementById('dml-ex3-feedback');
+            
+            if (userAnswer.includes('DELETE FROM') && userAnswer.includes('PRODUCTS') && 
+                userAnswer.includes('WHERE') && (userAnswer.includes('< 5') || userAnswer.includes('< \"5'))) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! Your DELETE statement removes products with low stock. Good use of the WHERE clause!';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use DELETE FROM table WHERE condition. Make sure you\'re checking for StockQuantity < 5!';
+            }
+        }
+
+        function checkOperatorsExercise1() {
+            const userAnswer = document.getElementById('op-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('op-ex1-feedback');
+            
+            if ((userAnswer.includes('SELECT') || userAnswer.includes('SALARY * 12')) && 
+                (userAnswer.includes('> 600000') || userAnswer.includes('>= 600000'))) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used arithmetic operator (*) to calculate annual salary and comparison operator (>) in WHERE clause.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Remember: SELECT EMP_NAME, (SALARY * 12) as ANNUAL_SALARY FROM EMPLOYEES WHERE (SALARY * 12) > 600000';
+            }
+        }
+
+        function checkOperatorsExercise2() {
+            const userAnswer = document.getElementById('op-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('op-ex2-feedback');
+            
+            if ((userAnswer.includes('IT') || userAnswer.includes('HR')) && 
+                (userAnswer.includes('OR') || userAnswer.includes('IN')) && 
+                userAnswer.includes('> 45000')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You combined logical operators (OR/IN) with comparison operator (>). Both approaches work!';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: WHERE (DEPT_ID = \'IT\' OR DEPT_ID = \'HR\') AND SALARY > 45000. Or use WHERE DEPT_ID IN (\'IT\', \'HR\') AND SALARY > 45000';
+            }
+        }
+
+        function checkFunctionExercise1() {
+            const userAnswer = document.getElementById('func-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('func-ex1-feedback');
+            
+            if (userAnswer.includes('SELECT') && userAnswer.includes('AVG') && 
+                userAnswer.includes('SALARY') && userAnswer.includes('WHERE') && userAnswer.includes('IT')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used the AVG() aggregate function with a WHERE clause to filter IT department.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: SELECT AVG(SALARY) FROM EMPLOYEES WHERE DEPT_ID = \'IT\'';
+            }
+        }
+
+        function checkFunctionExercise2() {
+            const userAnswer = document.getElementById('func-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('func-ex2-feedback');
+            
+            if (userAnswer.includes('SELECT') && userAnswer.includes('UPPER') && 
+                userAnswer.includes('LENGTH') && userAnswer.includes('EMP_NAME')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used UPPER() for case conversion and LENGTH() for string length - great use of string functions!';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: SELECT UPPER(EMP_NAME), LENGTH(EMP_NAME) FROM EMPLOYEES';
+            }
+        }
+
+        function checkJoinExercise1() {
+            const userAnswer = document.getElementById('join-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('join-ex1-feedback');
+            
+            if (userAnswer.includes('INNER JOIN') && userAnswer.includes('ON') && 
+                userAnswer.includes('EMPLOYEES') && userAnswer.includes('DEPARTMENTS')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used INNER JOIN to combine EMPLOYEES and DEPARTMENTS tables properly.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: SELECT E.EMP_NAME, D.DEPT_NAME FROM EMPLOYEES E INNER JOIN DEPARTMENTS D ON E.DEPT_ID = D.DEPT_ID';
+            }
+        }
+
+        function checkJoinExercise2() {
+            const userAnswer = document.getElementById('join-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('join-ex2-feedback');
+            
+            if ((userAnswer.includes('LEFT') || userAnswer.includes('LEFT OUTER')) && 
+                userAnswer.includes('JOIN') && userAnswer.includes('EMPLOYEES') && 
+                userAnswer.includes('DEPARTMENTS')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used LEFT JOIN. For the "Unassigned" part, consider using COALESCE or NVL function if needed.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: SELECT E.EMP_NAME, COALESCE(D.DEPT_NAME, \'Unassigned\') FROM EMPLOYEES E LEFT JOIN DEPARTMENTS D ON E.DEPT_ID = D.DEPT_ID';
+            }
+        }
+
+        function checkSubqueryExercise1() {
+            const userAnswer = document.getElementById('sub-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('sub-ex1-feedback');
+            
+            if (userAnswer.includes('SELECT') && userAnswer.includes('WHERE') && 
+                userAnswer.includes('SALARY') && userAnswer.includes('MAX')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used a subquery with MAX() function to find the highest salary employee.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: SELECT EMP_NAME, SALARY FROM EMPLOYEES WHERE SALARY = (SELECT MAX(SALARY) FROM EMPLOYEES)';
+            }
+        }
+
+        function checkSubqueryExercise2() {
+            const userAnswer = document.getElementById('sub-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('sub-ex2-feedback');
+            
+            if (userAnswer.includes('SELECT') && userAnswer.includes('WHERE') && 
+                userAnswer.includes('DEPT_ID') && (userAnswer.includes('IN') || userAnswer.includes('LIKE'))) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used a subquery with IN operator or LIKE pattern. Both approaches work!';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: SELECT * FROM EMPLOYEES WHERE DEPT_ID IN (SELECT DEPT_ID FROM DEPARTMENTS WHERE DEPT_NAME LIKE \'%IT%\')';
+            }
+        }
+
+        function checkSubqueryExercise3() {
+            const userAnswer = document.getElementById('sub-ex3').value.trim().toUpperCase();
+            const feedback = document.getElementById('sub-ex3-feedback');
+            
+            if (userAnswer.includes('CREATE VIEW') && userAnswer.includes('AS') && 
+                userAnswer.includes('SELECT') && userAnswer.includes('COUNT')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You created a view with GROUP BY and COUNT function to show employee count per department.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: CREATE VIEW DEPT_EMPLOYEE_COUNT AS SELECT D.DEPT_NAME, COUNT(E.EMP_ID) FROM DEPARTMENTS D LEFT JOIN EMPLOYEES E ON D.DEPT_ID = E.DEPT_ID GROUP BY D.DEPT_NAME';
+            }
+        }
+
+        function checkSequenceExercise1() {
+            const userAnswer = document.getElementById('seq-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('seq-ex1-feedback');
+            
+            if (userAnswer.includes('CREATE SEQUENCE') && userAnswer.includes('PRODUCT_SEQ') && 
+                userAnswer.includes('START WITH') && userAnswer.includes('INCREMENT BY')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You created a sequence with all required parameters.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: CREATE SEQUENCE PRODUCT_SEQ START WITH 500 INCREMENT BY 1 MAXVALUE 5000 CACHE 10';
+            }
+        }
+
+        function checkSequenceExercise2() {
+            const userAnswer = document.getElementById('seq-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('seq-ex2-feedback');
+            
+            if (userAnswer.includes('INSERT INTO') && userAnswer.includes('PRODUCT_SEQ.NEXTVAL')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used NEXTVAL pseudo-column to insert the next sequence value.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: INSERT INTO PRODUCTS VALUES (PRODUCT_SEQ.NEXTVAL, \'Tablet\', 25000)';
+            }
+        }
+
+        function checkSequenceExercise3() {
+            const userAnswer = document.getElementById('seq-ex3').value.trim().toUpperCase();
+            const feedback = document.getElementById('seq-ex3-feedback');
+            
+            if (userAnswer.includes('CREATE SYNONYM') && userAnswer.includes('EMP') && 
+                userAnswer.includes('EMPLOYEES') && userAnswer.includes('SELECT')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You created a synonym and wrote a SELECT query using it.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Use: CREATE SYNONYM EMP FOR HR.EMPLOYEES; Then: SELECT * FROM EMP;';
+            }
+        }
+
+        function checkPLSQLExercise1() {
+            const userAnswer = document.getElementById('plsql-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('plsql-ex1-feedback');
+            
+            if (userAnswer.includes('DECLARE') && userAnswer.includes('BEGIN') && 
+                userAnswer.includes('END') && userAnswer.includes(':=')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You wrote a proper PL/SQL block with DECLARE, BEGIN, and END sections.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. PL/SQL block structure: DECLARE variables BEGIN statements END;';
+            }
+        }
+
+        function checkPLSQLExercise2() {
+            const userAnswer = document.getElementById('plsql-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('plsql-ex2-feedback');
+            
+            if (userAnswer.includes('IF') && userAnswer.includes('THEN') && 
+                (userAnswer.includes('ELSE') || userAnswer.includes('ELSIF')) && 
+                userAnswer.includes('*')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You used IF-THEN-ELSE control structure for conditional logic.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Structure: IF condition THEN bonus := salary * 0.15; ELSE bonus := salary * 0.05; END IF;';
+            }
+        }
+
+        function checkProcedureExercise1() {
+            const userAnswer = document.getElementById('proc-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('proc-ex1-feedback');
+            
+            if (userAnswer.includes('CREATE PROCEDURE') && userAnswer.includes('RAISE_SALARY') && 
+                userAnswer.includes('UPDATE') && userAnswer.includes('EMPLOYEES')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You created a procedure that updates the salary with increase percentage.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Create a procedure with parameters for EMP_ID and raise percentage, then UPDATE the EMPLOYEES table.';
+            }
+        }
+
+        function checkProcedureExercise2() {
+            const userAnswer = document.getElementById('proc-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('proc-ex2-feedback');
+            
+            if (userAnswer.includes('CREATE FUNCTION') && userAnswer.includes('CALCULATE_TAX') && 
+                userAnswer.includes('RETURN') && userAnswer.includes('*')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You created a function that calculates and returns the tax amount.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Create a function with parameter, return salary * 0.20 for tax calculation.';
+            }
+        }
+
+        function checkTriggerExercise1() {
+            const userAnswer = document.getElementById('trig-ex1').value.trim().toUpperCase();
+            const feedback = document.getElementById('trig-ex1-feedback');
+            
+            if (userAnswer.includes('CREATE') && userAnswer.includes('TRIGGER') && 
+                (userAnswer.includes('BEFORE') || userAnswer.includes('AFTER')) && 
+                userAnswer.includes('UPDATE')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You created a trigger for UPDATE events. Use :NEW to reference new values!';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Create a BEFORE/AFTER UPDATE trigger that sets UPDATE_TIMESTAMP = SYSDATE using :NEW.UPDATE_TIMESTAMP';
+            }
+        }
+
+        function checkTriggerExercise2() {
+            const userAnswer = document.getElementById('trig-ex2').value.trim().toUpperCase();
+            const feedback = document.getElementById('trig-ex2-feedback');
+            
+            if (userAnswer.includes('DECLARE') && userAnswer.includes('CURSOR') && 
+                userAnswer.includes('OPEN') && userAnswer.includes('FETCH') && 
+                userAnswer.includes('CLOSE')) {
+                feedback.className = 'feedback success show';
+                feedback.innerHTML = '✅ Correct! You properly used cursor lifecycle: DECLARE, OPEN, FETCH, and CLOSE.';
+            } else {
+                feedback.className = 'feedback error show';
+                feedback.innerHTML = '❌ Not quite right. Cursor lifecycle: DECLARE cursor, OPEN it, LOOP with FETCH, check %NOTFOUND, then CLOSE.';
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            let total = 8;
+            let results = '';
+
+            for (let i = 1; i <= total; i++) {
+                const selectedOption = document.querySelector('input[name="q' + i + '"]:checked');
+                if (selectedOption && selectedOption.value === correctAnswers['q' + i]) {
+                    score++;
+                    results += '✅ Question ' + i + ': Correct\n';
+                } else {
+                    results += '❌ Question ' + i + ': Incorrect\n';
+                }
+            }
+
+            const percentage = Math.round((score / total) * 100);
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('show');
+
+            if (percentage >= 80) {
+                feedback.classList.add('success');
+                feedback.classList.remove('error');
+                feedback.innerHTML = `<strong>🎉 Excellent!</strong><br>Your Score: ${score}/${total} (${percentage}%)<br><br>${results.replace(/\n/g, '<br>')}`;
+            } else if (percentage >= 60) {
+                feedback.classList.add('info');
+                feedback.classList.remove('error', 'success');
+                feedback.innerHTML = `<strong>📈 Good Effort!</strong><br>Your Score: ${score}/${total} (${percentage}%)<br><br>${results.replace(/\n/g, '<br>')}<br><br>Review the sections where you had difficulty.`;
+            } else {
+                feedback.classList.add('error');
+                feedback.classList.remove('success');
+                feedback.innerHTML = `<strong>📚 Keep Learning!</strong><br>Your Score: ${score}/${total} (${percentage}%)<br><br>${results.replace(/\n/g, '<br>')}<br><br>Go back and review the concepts. You'll improve with practice!`;
+            }
+        }
+    </script>
+</body>
+</html>
