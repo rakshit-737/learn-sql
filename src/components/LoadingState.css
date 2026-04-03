@@ -1,0 +1,58 @@
+/* ============================================================
+   LOADING STATE — SQL-specific loading experience
+   ============================================================ */
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  padding: var(--space-20) var(--space-8);
+  text-align: center;
+}
+
+/* --- Spinner --- */
+
+.loading-state__spinner {
+  position: relative;
+  width: 52px;
+  height: 52px;
+}
+
+.loading-state__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--color-primary-500);
+  animation: spinRing 1s linear infinite;
+}
+
+.loading-state__ring--inner {
+  inset: 8px;
+  border-top-color: var(--color-accent-400);
+  animation-duration: 0.75s;
+  animation-direction: reverse;
+}
+
+@keyframes spinRing {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Message --- */
+
+.loading-state__message {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-state__ring {
+    animation: none;
+    border-color: var(--color-primary-200);
+    border-top-color: var(--color-primary-500);
+  }
+}

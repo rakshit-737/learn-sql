@@ -1,22 +1,70 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Header.css';
 import { FaDatabase } from 'react-icons/fa';
+import { useStore } from '../store/store';
+
+const TOPICS = [
+  'intro', 'dml', 'operators', 'functions', 'joins',
+  'subqueries', 'sequences', 'plsql', 'procedures', 'triggers', 'quiz'
+];
 
 function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const { currentTopic, setCurrentTopic } = useStore();
+
+  const topicIndex = TOPICS.indexOf(currentTopic);
+  const progressPct = topicIndex >= 0
+    ? Math.round(((topicIndex + 1) / TOPICS.length) * 100)
+    : 0;
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="header">
+    <header className={`header${scrolled ? ' header--scrolled' : ''}`}>
       <div className="header-content">
-        <div className="logo-section">
-          <FaDatabase className="logo-icon" />
-          <h1>Database Systems Lab</h1>
+        {/* Logo */}
+        <button
+          className="logo-section"
+          onClick={() => setCurrentTopic('intro')}
+          title="Go to Introduction"
+        >
+          <div className="logo-icon-wrap">
+            <FaDatabase className="logo-icon" aria-hidden="true" />
+          </div>
+          <div className="logo-text">
+            <span className="logo-title">Database Lab</span>
+            <span className="logo-sub">SQL &amp; PL/SQL Mastery</span>
+          </div>
+        </button>
+
+        {/* Progress pill */}
+        <div className="header-meta">
+          <div className="progress-pill" title={`${progressPct}% through the course`}>
+            <span className="progress-pill__label">Progress</span>
+            <span className="progress-pill__value">{progressPct}%</span>
+          </div>
+          <a
+            href="https://github.com/rakshit-737/learn-sql"
+            className="header-link"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="View source on GitHub"
+          >
+            GitHub
+          </a>
         </div>
-        <nav className="header-nav">
-          <a href="#about" className="nav-link">Documentation</a>
-          <a href="#github" className="nav-link">GitHub</a>
-        </nav>
       </div>
-      <div className="progress-bar">
-        <div className="progress-fill"></div>
+
+      {/* Reading-progress bar */}
+      <div className="progress-track" aria-hidden="true">
+        <div
+          className="progress-fill"
+          style={{ width: `${progressPct}%` }}
+        />
       </div>
     </header>
   );
