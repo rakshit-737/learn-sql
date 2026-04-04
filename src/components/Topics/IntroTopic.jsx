@@ -23,7 +23,7 @@ const FEATURES = [
   {
     emoji: '✍️',
     title: 'Practice Exercises',
-    desc: 'Hands-on problems after each topic to reinforce what you\'ve learned.',
+    desc: "Hands-on problems after each topic to reinforce what you've learned.",
   },
   {
     emoji: '📋',
