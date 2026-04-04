@@ -202,6 +202,11 @@
   color: var(--color-accent-400);
 }
 
+.topic-badge--ref {
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+}
+
 /* --- Active indicator line --- */
 
 .active-indicator {
@@ -236,6 +241,28 @@
 
 .sidebar--collapsed .toggle-btn {
   margin: 0 auto;
+}
+
+/* --- Mobile overlay --- */
+
+.sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: oklch(0% 0 0 / 0.55);
+    z-index: 49;
+    animation: fadeIn 0.2s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* --- Responsive (mobile) --- */

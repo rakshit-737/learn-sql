@@ -12,7 +12,8 @@ import {
   FaCode,
   FaProjectDiagram,
   FaBolt,
-  FaCheckCircle
+  FaCheckCircle,
+  FaClipboardList
 } from 'react-icons/fa';
 
 const topics = [
@@ -26,68 +27,84 @@ const topics = [
   { id: 'plsql',      label: 'PL/SQL Basics',            icon: FaCode,           badge: 'Advanced' },
   { id: 'procedures', label: 'Procedures & Functions',   icon: FaProjectDiagram, badge: 'Advanced' },
   { id: 'triggers',   label: 'Triggers & Cursors',       icon: FaBolt,           badge: 'Advanced' },
+  { id: 'quickref',   label: 'Quick Reference',          icon: FaClipboardList,  badge: 'Ref' },
   { id: 'quiz',       label: 'Quiz & Assessment',        icon: FaCheckCircle,    badge: 'Test' },
 ];
 
-function Sidebar({ currentTopic, onTopicChange }) {
+function Sidebar({ currentTopic, onTopicChange, mobileOpen, onMobileClose }) {
   const [isOpen, setIsOpen] = useState(true);
 
+  const handleTopicChange = (id) => {
+    onTopicChange(id);
+    if (onMobileClose) onMobileClose();
+  };
+
   return (
-    <aside className={`sidebar${isOpen ? '' : ' sidebar--collapsed'}`}>
-      {/* Collapse toggle */}
-      <div className="sidebar-header">
-        <button
-          className="toggle-btn"
-          onClick={() => setIsOpen(!isOpen)}
-          title={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-          aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-        >
-          <FaChevronLeft
-            className={`toggle-icon${isOpen ? '' : ' toggle-icon--flipped'}`}
-            size={14}
-          />
-        </button>
-      </div>
-
-      {/* Section heading */}
-      {isOpen && (
-        <div className="sidebar-section-label">Course Topics</div>
+    <>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={onMobileClose}
+          aria-hidden="true"
+        />
       )}
+      <aside className={`sidebar${isOpen ? '' : ' sidebar--collapsed'}${mobileOpen ? ' sidebar--open-mobile' : ''}`}>
+        {/* Collapse toggle */}
+        <div className="sidebar-header">
+          <button
+            className="toggle-btn"
+            onClick={() => setIsOpen(!isOpen)}
+            title={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+            aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+          >
+            <FaChevronLeft
+              className={`toggle-icon${isOpen ? '' : ' toggle-icon--flipped'}`}
+              size={14}
+            />
+          </button>
+        </div>
 
-      {/* Navigation list */}
-      <nav className="topics-list" aria-label="Course topics">
-        {topics.map((topic, idx) => {
-          const Icon = topic.icon;
-          const isActive = currentTopic === topic.id;
+        {/* Section heading */}
+        {isOpen && (
+          <div className="sidebar-section-label">Course Topics</div>
+        )}
 
-          return (
-            <button
-              key={topic.id}
-              className={`topic-btn${isActive ? ' topic-btn--active' : ''}`}
-              onClick={() => onTopicChange(topic.id)}
-              title={!isOpen ? topic.label : undefined}
-              aria-current={isActive ? 'page' : undefined}
-              style={{ animationDelay: `${idx * 30}ms` }}
-            >
-              <span className={`topic-icon-wrap${isActive ? ' topic-icon-wrap--active' : ''}`}>
-                <Icon size={15} aria-hidden="true" />
-              </span>
-              {isOpen && (
-                <>
-                  <span className="topic-label">{topic.label}</span>
-                  {topic.badge && (
-                    <span className={`topic-badge topic-badge--${topic.badge.toLowerCase()}`}>
-                      {topic.badge}
-                    </span>
-                  )}
-                </>
-              )}
-              {isActive && <span className="active-indicator" aria-hidden="true" />}
-            </button>
-          );
-        })}
-      </nav>
-    </aside>
+        {/* Navigation list */}
+        <nav className="topics-list" aria-label="Course topics">
+          {topics.map((topic, idx) => {
+            const Icon = topic.icon;
+            const isActive = currentTopic === topic.id;
+
+            return (
+              <button
+                key={topic.id}
+                className={`topic-btn${isActive ? ' topic-btn--active' : ''}`}
+                onClick={() => handleTopicChange(topic.id)}
+                title={!isOpen ? topic.label : undefined}
+                aria-current={isActive ? 'page' : undefined}
+                style={{ animationDelay: `${idx * 30}ms` }}
+              >
+                <span className={`topic-icon-wrap${isActive ? ' topic-icon-wrap--active' : ''}`}>
+                  <Icon size={15} aria-hidden="true" />
+                </span>
+                {isOpen && (
+                  <>
+                    <span className="topic-label">{topic.label}</span>
+                    {topic.badge && (
+                      <span className={`topic-badge topic-badge--${topic.badge.toLowerCase()}`}>
+                        {topic.badge}
+                      </span>
+                    )}
+                  </>
+                )}
+                {isActive && <span className="active-indicator" aria-hidden="true" />}
+              </button>
+            );
+          })}
+        </nav>
+      </aside>
+    </>
   );
 }
 

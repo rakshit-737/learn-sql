@@ -11,6 +11,7 @@ import PLSQLTopic from './Topics/PLSQLTopic';
 import ProceduresTopic from './Topics/ProceduresTopic';
 import TriggersTopic from './Topics/TriggersTopic';
 import QuizTopic from './Topics/QuizTopic';
+import QuickRefTopic from './Topics/QuickRefTopic';
 
 const topicComponents = {
   intro: IntroTopic,
@@ -24,6 +25,7 @@ const topicComponents = {
   procedures: ProceduresTopic,
   triggers: TriggersTopic,
   quiz: QuizTopic,
+  quickref: QuickRefTopic,
 };
 
 function ContentArea({ currentTopic }) {
