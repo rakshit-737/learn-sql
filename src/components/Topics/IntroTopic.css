@@ -1,0 +1,336 @@
+/* ============================================================
+   INTRO TOPIC — hero landing page styles
+   ============================================================ */
+
+/* --- Hero section --- */
+
+.intro-hero {
+  background: linear-gradient(
+    135deg,
+    oklch(14% 0.025 240) 0%,
+    oklch(18% 0.035 220) 50%,
+    oklch(14% 0.025 240) 100%
+  );
+  border: 1px solid var(--color-neutral-200);
+  border-top: 3px solid var(--color-primary-500);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-12) var(--space-10);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grid pattern background */
+.intro-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--color-neutral-200) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-neutral-200) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.intro-hero__badge {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-mono);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+  color: var(--color-primary-500);
+  background: var(--color-primary-100);
+  border: 1px solid var(--color-primary-300);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-4);
+  margin-bottom: var(--space-6);
+  position: relative;
+}
+
+.intro-hero__title {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-tight);
+  color: var(--text-primary);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--space-4);
+  position: relative;
+}
+
+.intro-hero__highlight {
+  color: var(--color-primary-500);
+  text-shadow: 0 0 30px var(--color-primary-400);
+}
+
+.intro-hero__sub {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  max-width: 52ch;
+  margin: 0 auto var(--space-8);
+  position: relative;
+}
+
+.intro-hero__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* --- Stats row --- */
+
+.intro-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.intro-stat {
+  background: var(--surface-card);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  text-align: center;
+  transition:
+    box-shadow var(--transition-base),
+    transform var(--transition-spring);
+}
+
+.intro-stat:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.intro-stat__emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.intro-stat__value {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary-500);
+  line-height: 1;
+}
+
+.intro-stat__label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+}
+
+/* --- Features grid --- */
+
+.intro-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.intro-feature-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background: var(--surface-raised);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  transition:
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.intro-feature-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-primary-300);
+}
+
+.intro-feature-card__icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.intro-feature-card__title {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.intro-feature-card__desc {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* --- Topics overview grid --- */
+
+.intro-topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.intro-topic-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  transition:
+    box-shadow var(--transition-base),
+    transform var(--transition-spring);
+}
+
+.intro-topic-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.intro-topic-card--green  { border-left: 3px solid var(--color-success-500); }
+.intro-topic-card--amber  { border-left: 3px solid var(--color-accent-400); }
+.intro-topic-card--red    { border-left: 3px solid var(--color-error-500); }
+.intro-topic-card--cyan   { border-left: 3px solid var(--color-primary-500); }
+.intro-topic-card--purple { border-left: 3px solid oklch(65% 0.18 290); }
+
+.intro-topic-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.intro-topic-card__title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.intro-topic-card__badge {
+  font-size: 0.6rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.intro-topic-card__badge--green  { background: var(--color-success-100);   color: var(--color-success-500); }
+.intro-topic-card__badge--amber  { background: oklch(72% 0.175 68 / 0.15); color: var(--color-accent-400); }
+.intro-topic-card__badge--red    { background: var(--color-error-100);     color: var(--color-error-500); }
+.intro-topic-card__badge--cyan   { background: var(--color-primary-100);   color: var(--color-primary-500); }
+.intro-topic-card__badge--purple { background: oklch(60% 0.20 275 / 0.15); color: oklch(65% 0.18 290); }
+
+.intro-topic-card__desc {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* --- How to use steps --- */
+
+.intro-steps {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.intro-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.intro-step__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  background: var(--color-primary-200);
+  color: var(--color-primary-600);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-mono);
+  box-shadow: 0 0 0 3px var(--color-primary-100);
+}
+
+.intro-step__desc {
+  color: var(--text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+/* --- Note-box inline link button --- */
+
+.note-link-btn {
+  background: none;
+  border: none;
+  color: var(--color-accent-400);
+  font: inherit;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.note-link-btn:hover {
+  color: var(--color-accent-300);
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 900px) {
+  .intro-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .intro-hero {
+    padding: var(--space-8) var(--space-5);
+  }
+
+  .intro-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .intro-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .intro-features {
+    grid-template-columns: 1fr;
+  }
+
+  .intro-topics-grid {
+    grid-template-columns: 1fr;
+  }
+}

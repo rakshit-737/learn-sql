@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './Header.css';
-import { FaDatabase } from 'react-icons/fa';
+import { FaDatabase, FaBars, FaTimes } from 'react-icons/fa';
 import { useStore } from '../store/store';
 
 const TOPICS = [
   'intro', 'dml', 'operators', 'functions', 'joins',
-  'subqueries', 'sequences', 'plsql', 'procedures', 'triggers', 'quiz'
+  'subqueries', 'sequences', 'plsql', 'procedures', 'triggers', 'quickref', 'quiz'
 ];
 
-function Header() {
+function Header({ onMenuToggle, mobileMenuOpen }) {
   const [scrolled, setScrolled] = useState(false);
   const { currentTopic, setCurrentTopic } = useStore();
 
@@ -26,6 +26,16 @@ function Header() {
   return (
     <header className={`header${scrolled ? ' header--scrolled' : ''}`}>
       <div className="header-content">
+        {/* Mobile menu toggle */}
+        <button
+          className="header-menu-btn"
+          onClick={onMenuToggle}
+          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          title={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+        >
+          {mobileMenuOpen ? <FaTimes size={16} /> : <FaBars size={16} />}
+        </button>
+
         {/* Logo */}
         <button
           className="logo-section"
